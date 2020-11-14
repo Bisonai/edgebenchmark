@@ -20,13 +20,13 @@ from pathlib import Path
 
 import click
 
-from utils import send_model
-from utils import load_token_from_file
-from settings import available_benchmarks
-from settings import settings
-from custom_types import ModelPathType
-from custom_types import FeaturesType
-from custom_types import verify_token_size
+from edgebenchmark.utils import send_model
+from edgebenchmark.utils import load_token_from_file
+from edgebenchmark.settings import available_benchmarks
+from edgebenchmark.settings import settings
+from edgebenchmark.custom_types import ModelPathType
+from edgebenchmark.custom_types import FeaturesType
+from edgebenchmark.custom_types import verify_token_size
 
 
 @click.group()

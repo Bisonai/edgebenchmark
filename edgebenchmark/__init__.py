@@ -1,0 +1,1 @@
+from edgebenchmark.edgebenchmark import TFLiteBenchmark

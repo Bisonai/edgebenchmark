@@ -21,11 +21,11 @@ from typing import Tuple
 from typing import Dict
 from typing import Union
 
-from utils import send_model
-from utils import load_token_from_file
-from settings import settings
-from settings import available_benchmarks
-from custom_types import verify_model_file
+from edgebenchmark.utils import send_model
+from edgebenchmark.utils import load_token_from_file
+from edgebenchmark.settings import settings
+from edgebenchmark.settings import available_benchmarks
+from edgebenchmark.custom_types import verify_model_file
 
 
 class EdgeBenchmark(ABC):

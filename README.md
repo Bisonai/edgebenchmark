@@ -10,7 +10,7 @@ pip install edgebenchmark
 
 ## First Use
 
-Before you can use Edge Benchmark, register at [edgebenchmark.com/app#/register](edgebenchmark.com/app#/register) and generate your secret token in profiel section.
+Before you can use Edge Benchmark, register at [https://edgebenchmark.com/app#/register](https://edgebenchmark.com/app#/register) and generate your secret token in profiel section.
 
 Then, run following command
 

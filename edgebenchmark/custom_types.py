@@ -19,7 +19,7 @@ import json
 
 import click
 
-from settings import settings
+from edgebenchmark.settings import settings
 
 
 class ModelPathClass(click.ParamType):

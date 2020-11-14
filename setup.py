@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="edgebenchmark",
-    version="0.0.1",
+    version="0.0.2",
     author="Martin Kersner",
     author_email="martin@bisonai.com",
     description="Tool to benchmark speed of machine learning models on real mobile devices",
@@ -15,12 +15,13 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License 2.0",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    include_package_data=True,
     entry_points='''
         [console_scripts]
-        edgebenchmark=edgebenchmark_cli:cli
+        edgebenchmark=edgebenchmark.edgebenchmark_cli:cli
     ''',
 )
