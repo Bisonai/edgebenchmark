@@ -33,9 +33,7 @@ def send_model(
         benchmark_type,
         benchmark_args: Dict,
 ):
-    # model_endpoint = "http://52.231.69.96/api/model"
-    # model_endpoint = "http://edgebenchmark/api/model"
-    model_endpoint = "http://localhost:80/api/model"
+    from edgebenchmark.settings import settings
 
     header = {
         "token": token,
@@ -61,7 +59,7 @@ def send_model(
     }
 
     response = requests.put(
-        model_endpoint,
+        settings._MODEL_ENDPOINT,
         files=files,
     )
 
@@ -97,7 +95,7 @@ def md5_hash(
 
 
 def load_token_from_file():
-    from settings import settings
+    from edgebenchmark.settings import settings
 
     settings._CONFIGURE_DIR.mkdir(parents=True, exist_ok=True)
 

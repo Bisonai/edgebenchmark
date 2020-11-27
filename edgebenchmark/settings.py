@@ -32,6 +32,7 @@ class settings:
     _CONFIGURE_DIR = Path.home() / ".edgebenchmark"
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"
     _TOKEN_LENGTH = 128
+    _MODEL_ENDPOINT = "http://52.231.69.96/api/model"
 
 
 class available_benchmarks(Enum):
