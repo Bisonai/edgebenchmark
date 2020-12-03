@@ -25,14 +25,15 @@ class settings:
     _AVAILABLE_DEVICES=[
         "all",
 
-        "OnePlus6t",
+        # "OnePlus6t",
         "SamsungGalaxyNote3",
+        "Nexus5X",
     ]
 
     _CONFIGURE_DIR = Path.home() / ".edgebenchmark"
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"
     _TOKEN_LENGTH = 128
-    _MODEL_ENDPOINT = "http://52.231.69.96/api/model"
+    _MODEL_ENDPOINT = "https://edgebenchmark.com/api/model"
 
 
 class available_benchmarks(Enum):
