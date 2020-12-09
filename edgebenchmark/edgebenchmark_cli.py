@@ -13,6 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 import sys
+import json
 from typing import Dict
 from typing import Tuple
 from typing import Any
@@ -21,6 +22,7 @@ from pathlib import Path
 import click
 
 from edgebenchmark.utils import send_model
+from edgebenchmark.utils import get_devices
 from edgebenchmark.utils import load_token_from_file
 from edgebenchmark.settings import available_benchmarks
 from edgebenchmark.settings import settings
@@ -119,6 +121,37 @@ def ncnn(model_path, devices, features):
     )
 
 
+@click.group()
+def cli_devices():
+    pass
+
+
+@cli_devices.command()
+def devices():
+    import requests
+
+    token = load_token_from_file()
+
+    response = get_devices(
+        settings._PROTOCOL_VERSION,
+        token,
+    )
+
+    status_code = response.status_code
+    if status_code != 200:
+        print("Unexpected error occured. Please contact us as contact@bisonai.com", file=sys.stderr)
+        sys.exit(1)
+
+    success = json.loads(response.content.decode("ascii"))["success"]
+    response_data = json.loads(response.content.decode("ascii"))["data"]
+    if success:
+        for d in response_data:
+            print(d)
+    else:
+        print(f"Error occured: {response_msg}", file=sys.stderr)
+        sys.exit(1)
+
+
 def benchmark(
         model_path: Path,
         devices: Tuple[str],
@@ -126,13 +159,7 @@ def benchmark(
         benchmark_type,
         args: Dict[str, Any],
 ):
-    try:
-        token = load_token_from_file()
-    except FileNotFoundError:
-        print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"
-              f"Set token with commmand: edgebenchmark configure",
-              file=sys.stderr)
-        sys.exit(1)
+    token = load_token_from_file()
 
     response = send_model(
         settings._PROTOCOL_VERSION,
@@ -144,8 +171,21 @@ def benchmark(
         args,
     )
 
+    status_code = response.status_code
+    if status_code != 200:
+        print("Unexpected error occured. Please contact us as contact@bisonai.com", file=sys.stderr)
+        sys.exit(1)
 
-cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn])
+    success = json.loads(response.content.decode("ascii"))["success"]
+    if success:
+        print("Model was successfuly send for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
+    else:
+        response_msg = json.loads(response.content.decode("ascii"))["msg"]
+        print(f"Error occured: {response_msg}", file=sys.stderr)
+        sys.exit(1)
+
+
+cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn, cli_devices])
 
 
 if __name__ == "__main__":

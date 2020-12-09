@@ -23,6 +23,8 @@ from typing import Tuple
 from typing import List
 from typing import Dict
 
+from edgebenchmark.settings import settings
+
 
 def send_model(
         protocol_version: Tuple[int, int, int],
@@ -33,8 +35,6 @@ def send_model(
         benchmark_type,
         benchmark_args: Dict,
 ):
-    from edgebenchmark.settings import settings
-
     header = {
         "token": token,
         "protocol_version": json.dumps(protocol_version),
@@ -66,6 +66,30 @@ def send_model(
     return response
 
 
+def get_devices(
+        protocol_version: Tuple[int, int, int],
+        token: str,
+):
+    header = {
+        "token": token,
+        "protocol_version": json.dumps(protocol_version),
+    }
+
+    files = {
+        "json": json.dumps({
+            "header": header,
+            "body": {},  # FIXME
+        })
+    }
+
+    response = requests.get(
+        settings._DEVICE_ENDPOINT,
+        files=files,
+    )
+
+    return response
+
+
 def md5_hash(
     data: bytes=None,
     filepath: Path=None,
@@ -80,7 +104,7 @@ def md5_hash(
 
     Args:
       data: Bytes to hash.
-      filepath: If filepath is given,  file is loaded and encoded with
+      filepath: If filepath is given, file is loaded and encoded with
       hash function.
       buffer_size: Size of a buffer that is used during data hashing.
     """
@@ -95,8 +119,6 @@ def md5_hash(
 
 
 def load_token_from_file():
-    from edgebenchmark.settings import settings
-
     settings._CONFIGURE_DIR.mkdir(parents=True, exist_ok=True)
 
     if settings._CREDENTIALS_FILE_PATH.exists():
@@ -111,4 +133,6 @@ def load_token_from_file():
                 print(f"Invalid format of credentials file located at {settings._CONFIGURE_DIR}", file=sys.stderr)
                 sys.exit(1)
     else:
-        raise FileNotFoundError
+        print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n" \
+              "Set token with commmand: edgebenchmark configure", file.sys.stderr)
+        sys.exit(1)
