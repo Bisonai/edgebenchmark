@@ -35,32 +35,30 @@ def send_model(
         benchmark_type,
         benchmark_args: Dict,
 ):
-    header = {
-        "token": token,
-        "protocol_version": json.dumps(protocol_version),
+    headers = {
+        "Token": token,
     }
 
-    body = {
+    data = {
+        "protocol_version": json.dumps(protocol_version),
         "time": time.time(),
         "model_hash": md5_hash(filepath=model_path),
         "model_name": model_path.name,
-        "devices": devices,
-        "features": features,
+        "devices": json.dumps(devices),
+        "features": json.dumps(features),
         "benchmark_type": benchmark_type.value,
         "benchmark_args": benchmark_args,
     }
 
     files = {
-        "json": json.dumps({
-            "header": header,
-            "body": body,
-        }),
         "model_file": open(model_path, "rb"),
     }
 
     response = requests.put(
         settings._MODEL_ENDPOINT,
+        headers=headers,
         files=files,
+        data=data,
     )
 
     return response
@@ -70,21 +68,14 @@ def get_devices(
         protocol_version: Tuple[int, int, int],
         token: str,
 ):
-    header = {
+    data = {
         "token": token,
-        "protocol_version": json.dumps(protocol_version),
-    }
-
-    files = {
-        "json": json.dumps({
-            "header": header,
-            "body": {},  # FIXME
-        })
+        "protocol_version": protocol_version,
     }
 
     response = requests.get(
         settings._DEVICE_ENDPOINT,
-        files=files,
+        json=data,
     )
 
     return response

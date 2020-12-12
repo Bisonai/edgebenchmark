@@ -18,7 +18,7 @@ from pathlib import Path
 
 class settings:
     _MODEL_LIMIT_SIZE_MB = 30
-    _PROTOCOL_VERSION = (0, 0, 1)
+    _PROTOCOL_VERSION = [0, 0, 1]
 
     # TODO receive devices from server?
     # e.g. edgebenchmark.com/devices/get

@@ -137,19 +137,14 @@ def devices():
         token,
     )
 
-    status_code = response.status_code
-    if status_code != 200:
-        print("Unexpected error occured. Please contact us as contact@bisonai.com", file=sys.stderr)
+    if response.status_code != 200:
+        response_msg = json.loads(response.content.decode("ascii"))["msg"]
+        print(response_msg, file=sys.stderr)
         sys.exit(1)
 
-    success = json.loads(response.content.decode("ascii"))["success"]
     response_data = json.loads(response.content.decode("ascii"))["data"]
-    if success:
-        for d in response_data:
-            print(d)
-    else:
-        print(f"Error occured: {response_msg}", file=sys.stderr)
-        sys.exit(1)
+    for d in response_data:
+        print(d)
 
 
 def benchmark(
@@ -171,18 +166,12 @@ def benchmark(
         args,
     )
 
-    status_code = response.status_code
-    if status_code != 200:
-        print("Unexpected error occured. Please contact us as contact@bisonai.com", file=sys.stderr)
+    if response.status_code != 200:
+        response_msg = json.loads(response.content.decode("ascii"))["msg"]
+        print(response_msg, file=sys.stderr)
         sys.exit(1)
 
-    success = json.loads(response.content.decode("ascii"))["success"]
-    if success:
-        print("Model was successfuly send for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
-    else:
-        response_msg = json.loads(response.content.decode("ascii"))["msg"]
-        print(f"Error occured: {response_msg}", file=sys.stderr)
-        sys.exit(1)
+    print("Model was successfuly send for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
 
 cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn, cli_devices])
