@@ -63,7 +63,7 @@ def configure():
 
 def common_benchmark_options(fn):
     fn = click.option("--model_path", required=True, type=ModelPathType)(fn)
-    fn = click.option("--devices", "-d", required=True, type=str, multiple=True)(fn) # TODO custom check
+    fn = click.option("--device", "-d", default=["all"], type=str, multiple=True)(fn) # TODO custom check
     fn = click.option("--features", type=FeaturesType, default="{}")(fn)
     return fn
 
@@ -82,7 +82,7 @@ def cli_tflite():
 @click.option("--use_nnapi/--no-use_nnapi", default=False)
 @click.option("--use_legacy_nnapi/--no-use_legacy_nnapi", default=False)
 @click.option("--use_gpu/--no-use_gpu", default=False)
-def tflite(model_path, devices, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu):
+def tflite(model_path, device, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu):
     args = {
         "num_threads": num_threads,
         "warmup_runs": warmup_runs,
@@ -93,9 +93,9 @@ def tflite(model_path, devices, features, num_threads, warmup_runs, num_runs, ru
         "use_gpu": use_gpu,
     }
 
-    return benchmark(
+    benchmark(
         model_path,
-        devices,
+        device,
         features,
         available_benchmarks.tflite_basic,
         args,
@@ -112,7 +112,7 @@ def cli_ncnn():
 def ncnn(model_path, devices, features):
     args = {}
 
-    return benchmark(
+    benchmark(
         model_path,
         devices,
         features,
@@ -170,8 +170,8 @@ def benchmark(
         response_msg = json.loads(response.content.decode("ascii"))["msg"]
         print(response_msg, file=sys.stderr)
         sys.exit(1)
-
-    print("Model was successfuly send for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
+    else:
+        print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
 
 cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn, cli_devices])

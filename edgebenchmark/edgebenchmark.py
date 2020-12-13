@@ -83,6 +83,12 @@ class EdgeBenchmark(ABC):
             self.args,
         )
 
+        if response.status_code != 200:
+            response_msg = json.loads(response.content.decode("ascii"))["msg"]
+            logging.debug(response_msg, file=sys.stderr)
+        else:
+            print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
+
     @property
     def args(self):
         return self._args
