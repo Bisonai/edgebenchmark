@@ -47,7 +47,7 @@ def send_model(
         "devices": json.dumps(devices),
         "features": json.dumps(features),
         "benchmark_type": benchmark_type.value,
-        "benchmark_args": benchmark_args,
+        "benchmark_args": json.dumps(benchmark_args),
     }
 
     files = {
