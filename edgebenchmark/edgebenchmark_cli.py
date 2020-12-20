@@ -13,6 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 import sys
+import json
 from typing import Dict
 from typing import Tuple
 from typing import Any
@@ -21,6 +22,7 @@ from pathlib import Path
 import click
 
 from edgebenchmark.utils import send_model
+from edgebenchmark.utils import get_devices
 from edgebenchmark.utils import load_token_from_file
 from edgebenchmark.settings import available_benchmarks
 from edgebenchmark.settings import settings
@@ -61,7 +63,7 @@ def configure():
 
 def common_benchmark_options(fn):
     fn = click.option("--model_path", required=True, type=ModelPathType)(fn)
-    fn = click.option("--devices", "-d", required=True, type=str, multiple=True)(fn) # TODO custom check
+    fn = click.option("--device", "-d", default=["all"], type=str, multiple=True)(fn) # TODO custom check
     fn = click.option("--features", type=FeaturesType, default="{}")(fn)
     return fn
 
@@ -80,7 +82,7 @@ def cli_tflite():
 @click.option("--use_nnapi/--no-use_nnapi", default=False)
 @click.option("--use_legacy_nnapi/--no-use_legacy_nnapi", default=False)
 @click.option("--use_gpu/--no-use_gpu", default=False)
-def tflite(model_path, devices, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu):
+def tflite(model_path, device, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu):
     args = {
         "num_threads": num_threads,
         "warmup_runs": warmup_runs,
@@ -91,9 +93,9 @@ def tflite(model_path, devices, features, num_threads, warmup_runs, num_runs, ru
         "use_gpu": use_gpu,
     }
 
-    return benchmark(
+    benchmark(
         model_path,
-        devices,
+        device,
         features,
         available_benchmarks.tflite_basic,
         args,
@@ -110,13 +112,39 @@ def cli_ncnn():
 def ncnn(model_path, devices, features):
     args = {}
 
-    return benchmark(
+    benchmark(
         model_path,
         devices,
         features,
         available_benchmarks.ncnn,
         args,
     )
+
+
+@click.group()
+def cli_devices():
+    pass
+
+
+@cli_devices.command()
+def devices():
+    import requests
+
+    token = load_token_from_file()
+
+    response = get_devices(
+        settings._PROTOCOL_VERSION,
+        token,
+    )
+
+    if response.status_code != 200:
+        response_msg = json.loads(response.content.decode("ascii"))["msg"]
+        print(response_msg, file=sys.stderr)
+        sys.exit(1)
+
+    response_data = json.loads(response.content.decode("ascii"))["data"]
+    for d in response_data:
+        print(d)
 
 
 def benchmark(
@@ -126,13 +154,7 @@ def benchmark(
         benchmark_type,
         args: Dict[str, Any],
 ):
-    try:
-        token = load_token_from_file()
-    except FileNotFoundError:
-        print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"
-              f"Set token with commmand: edgebenchmark configure",
-              file=sys.stderr)
-        sys.exit(1)
+    token = load_token_from_file()
 
     response = send_model(
         settings._PROTOCOL_VERSION,
@@ -144,8 +166,15 @@ def benchmark(
         args,
     )
 
+    if response.status_code != 200:
+        response_msg = json.loads(response.content.decode("ascii"))["msg"]
+        print(response_msg, file=sys.stderr)
+        sys.exit(1)
+    else:
+        print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
-cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn])
+
+cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn, cli_devices])
 
 
 if __name__ == "__main__":

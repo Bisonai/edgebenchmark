@@ -18,14 +18,13 @@ from pathlib import Path
 
 class settings:
     _MODEL_LIMIT_SIZE_MB = 30
-    _PROTOCOL_VERSION = (0, 0, 1)
+    _PROTOCOL_VERSION = [0, 0, 1]
 
-    # TODO receive devices from server?
-    # e.g. edgebenchmark.com/devices/get
     _AVAILABLE_DEVICES=[
         "all",
 
         # "OnePlus6t",
+        "SonyXperiaZ5",
         "SamsungGalaxyNote3",
         "Nexus5X",
     ]
@@ -34,6 +33,7 @@ class settings:
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"
     _TOKEN_LENGTH = 128
     _MODEL_ENDPOINT = "https://edgebenchmark.com/api/model"
+    _DEVICE_ENDPOINT = "https://edgebenchmark.com/api/devices"
 
 
 class available_benchmarks(Enum):

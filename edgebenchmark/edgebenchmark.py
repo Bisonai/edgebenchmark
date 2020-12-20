@@ -51,7 +51,7 @@ class EdgeBenchmark(ABC):
     def devices(self, value: List[str]):
         # TODO check device availability
         if not isinstance(value, Tuple):
-            values = list(value)
+            value = list(value)
         elif not isinstance(value, List):
             raise ValueError("Device names have to be stored inside of List or Tuple type")
 
@@ -64,11 +64,11 @@ class EdgeBenchmark(ABC):
     @features.setter
     def features(self, value):
         if isinstance(value, str):
-            features = json.loads(value)
+            value = json.loads(value)
         elif not isinstance(value, Dict):
             raise ValueError("Features have to stored in Dict or as a str type")
 
-        self._feautures = value
+        self._features = value
 
     def run(self, model_path: Union[Path, str]):
         model_path = verify_model_file(model_path)
@@ -82,6 +82,12 @@ class EdgeBenchmark(ABC):
             self.benchmark_type,
             self.args,
         )
+
+        if response.status_code != 200:
+            response_msg = json.loads(response.content.decode("ascii"))["msg"]
+            logging.debug(response_msg, file=sys.stderr)
+        else:
+            print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
     @property
     def args(self):
