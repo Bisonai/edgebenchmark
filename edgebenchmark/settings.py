@@ -20,20 +20,46 @@ class settings:
     _MODEL_LIMIT_SIZE_MB = 30
     _PROTOCOL_VERSION = [0, 0, 1]
 
-    _AVAILABLE_DEVICES=[
-        "all",
-
-        # "OnePlus6t",
-        "SonyXperiaZ5",
-        "SamsungGalaxyNote3",
-        "Nexus5X",
-    ]
-
     _CONFIGURE_DIR = Path.home() / ".edgebenchmark"
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"
     _TOKEN_LENGTH = 128
     _MODEL_ENDPOINT = "https://edgebenchmark.com/api/model"
     _DEVICE_ENDPOINT = "https://edgebenchmark.com/api/devices"
+
+    _TFLITE_VERSIONS = [
+        "1.13.1",
+        "1.13.2",
+        "1.14.0",
+        "1.15.0",
+        "1.15.2",
+        "1.15.3",
+        "1.15.4",
+        "1.2.0",
+        "1.2.1",
+        "1.3.0",
+        "1.3.1",
+        "1.4.0",
+        "1.4.1",
+        "1.5.0",
+        "1.5.1",
+        "1.6.0",
+        "1.7.0",
+        "1.7.1",
+        "1.8.0",
+        "1.9.0",
+        "2.0.0",
+        "2.0.1",
+        "2.0.2",
+        "2.0.3",
+        "2.1.0",
+        "2.1.1",
+        "2.1.2",
+        "2.2.0",
+        "2.2.1",
+        "2.3.0",
+        "2.3.1",
+        "2.4.0",
+    ]
 
 
 class available_benchmarks(Enum):
