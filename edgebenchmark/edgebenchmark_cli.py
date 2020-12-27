@@ -82,7 +82,8 @@ def cli_tflite():
 @click.option("--use_nnapi/--no-use_nnapi", default=False)
 @click.option("--use_legacy_nnapi/--no-use_legacy_nnapi", default=False)
 @click.option("--use_gpu/--no-use_gpu", default=False)
-def tflite(model_path, device, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu):
+@click.option("--version", default=settings._TFLITE_VERSIONS[-1], type=click.Choice(settings._TFLITE_VERSIONS, case_sensitive=True))
+def tflite(model_path, device, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu, version):
     args = {
         "num_threads": num_threads,
         "warmup_runs": warmup_runs,
@@ -98,27 +99,28 @@ def tflite(model_path, device, features, num_threads, warmup_runs, num_runs, run
         device,
         features,
         available_benchmarks.tflite_basic,
+        version,
         args,
     )
 
 
-@click.group()
-def cli_ncnn():
-    pass
+# @click.group()
+# def cli_ncnn():
+    # pass
 
 
-@cli_ncnn.command()
-@common_benchmark_options
-def ncnn(model_path, devices, features):
-    args = {}
+# @cli_ncnn.command()
+# @common_benchmark_options
+# def ncnn(model_path, devices, features):
+    # args = {}
 
-    benchmark(
-        model_path,
-        devices,
-        features,
-        available_benchmarks.ncnn,
-        args,
-    )
+    # benchmark(
+    #     model_path,
+    #     devices,
+    #     features,
+    #     available_benchmarks.ncnn,
+    #     args,
+    # )
 
 
 @click.group()
@@ -152,6 +154,7 @@ def benchmark(
         devices: Tuple[str],
         features: str,
         benchmark_type,
+        benchmark_version: str,
         args: Dict[str, Any],
 ):
     token = load_token_from_file()
@@ -163,6 +166,7 @@ def benchmark(
         devices,
         features,
         benchmark_type,
+        benchmark_version,
         args,
     )
 
@@ -174,7 +178,7 @@ def benchmark(
         print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
 
-cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_ncnn, cli_devices])
+cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_devices])
 
 
 if __name__ == "__main__":

@@ -33,6 +33,7 @@ def send_model(
         devices: List[str],
         features: Dict,
         benchmark_type,
+        benchmark_version: str,
         benchmark_args: Dict,
 ):
     headers = {
@@ -47,6 +48,7 @@ def send_model(
         "devices": json.dumps(devices),
         "features": json.dumps(features),
         "benchmark_type": benchmark_type.value,
+        "benchmark_version": benchmark_version,
         "benchmark_args": json.dumps(benchmark_args),
     }
 

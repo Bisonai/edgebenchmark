@@ -32,7 +32,7 @@ Edge Benchmark can be either used directly from command line with `edgebenchmark
 
 ### Edge Benchmark CLI
 
-Edge Benchmark CLI tool offers several commands: `configure`, `ncnn` and `tflite`.
+Edge Benchmark CLI tool offers several commands: `configure` and `tflite`.
 
 ```bash
 edgebenchmark --help
@@ -47,7 +47,6 @@ Options:
 Commands:
   configure
   devices
-  ncnn
   tflite
 ```
 
@@ -75,9 +74,9 @@ Options:
   --use_nnapi / --no-use_nnapi
   --use_legacy_nnapi / --no-use_legacy_nnapi
   --use_gpu / --no-use_gpu
+  --version [1.13.1|1.13.2|1.14.0|1.15.0|1.15.2|1.15.3|1.15.4|1.2.0|1.2.1|1.3.0|1.3.1|1.4.0|1.4.1|1.5.0|1.5.1|1.6.0|1.7.0|1.7.1|1.8.0|1.9.0|2.0.0|2.0.1|2.0.2|2.0.3|2.1.0|2.1.1|2.1.2|2.2.0|2.2.1|2.3.0|2.3.1|2.4.0]
   --help                          Show this message and exit.
 ```
-
 
 ### Edge Benchmark Python Package
 
@@ -97,6 +96,7 @@ benchmark.use_legacy_nnapi = False
 benchmark.use_gpu = False
 benchmark.features = "{}"
 benchmark.devices = ["SamsungGalaxyNote3"]
+benchmark.version = "1.13.1"
 
 model_path = "model.tflite"
 benchmark.run(model_path)

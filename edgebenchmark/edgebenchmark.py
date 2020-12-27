@@ -33,6 +33,7 @@ class EdgeBenchmark(ABC):
         self._devices = ["all"]
         self._protocol_version = settings._PROTOCOL_VERSION
         self._features = {}
+        self._version = settings._TFLITE_VERSIONS[-1]
         self._args = self.default_args()
 
         try:
@@ -80,6 +81,7 @@ class EdgeBenchmark(ABC):
             self.devices,
             self.features,
             self.benchmark_type,
+            self.version,
             self.args,
         )
 
@@ -114,6 +116,20 @@ class TFLiteBenchmark(EdgeBenchmark):
     @property
     def benchmark_type(self):
         return available_benchmarks.tflite_basic
+
+    @property
+    def version(self):
+        return self._version
+
+    @version.setter
+    def version(self, value: str):
+        if not isinstance(value, str):
+            raise ValueError("Version of TF Lite should be defined using string type")
+
+        if value not in settings._TFLITE_VERSIONS:
+            raise ValueError(f"Wrong version of TF Lite. Use any of available versions {', '.join(settings._TFLITE_VERSIONS)}")
+
+        self._version = value
 
     @property
     def num_threads(self):
@@ -193,10 +209,10 @@ class TFLiteBenchmark(EdgeBenchmark):
         self._args["use_gpu"] = value
 
 
-class NCNNBenchmark(EdgeBenchmark):
-    def default_args(self):
-        return {}
+# class NCNNBenchmark(EdgeBenchmark):
+#     def default_args(self):
+#         return {}
 
-    @property
-    def benchmark_type(self):
-        return available_benchmarks.ncnn
+#     @property
+#     def benchmark_type(self):
+#         return available_benchmarks.ncnn
