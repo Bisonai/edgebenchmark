@@ -10,7 +10,7 @@ pip install edgebenchmark
 
 ## First Use
 
-Before you can use Edge Benchmark, register at [https://edgebenchmark.com/app/#/register](https://edgebenchmark.com/app/#/register) and generate your secret token in profile section.
+Before you can use Edge Benchmark, [sign up](https://edgebenchmark.com/app/#/signup) and generate your secret token in [Profile section](https://edgebenchmark.com/app/#/profile).
 
 Then, run following command
 
@@ -38,6 +38,7 @@ Edge Benchmark CLI tool offers several commands: `configure` and `tflite`.
 edgebenchmark --help
 ```
 
+
 ```bash
 Usage: edgebenchmark [OPTIONS] COMMAND [ARGS]...
 
@@ -52,15 +53,14 @@ Commands:
 
 `configure` command is explained in the [First use](https://github.com/bisonai/edgebenchmark#first-use) section.
 
-`tflite` command is for benchmarking the speed of TensorFlow Lite models.
-You can setup many parameters to control the benchmarking process and also select devices (`--devices`) which you want to benchmark with.
-Below, you can see all options for `tflite` command.
+`tflite` command is for benchmarking the speed of TensorFlow Lite models. You can setup many parameters to control the benchmarking process and also select devices (`--devices`) which you want to benchmark with. Below, you can see all options for `tflite` command.
 
 ```bash
 edgebenchmark tflite --help
 ```
 
-```
+
+```bash
 Usage: edgebenchmark tflite [OPTIONS]
 
 Options:
@@ -82,7 +82,7 @@ Options:
 
 If you prefer to benchmark your machine learning models directly from Python, you can use our Python package `edgebenchmark`.
 
-```
+```python
 from edgebenchmark import TFLiteBenchmark
 
 benchmark = TFLiteBenchmark()
@@ -105,29 +105,25 @@ benchmark.run(model_path)
 ## Currently available devices
 
 If you want to select specific devices for benchmarking, but you are not sure what devices we currently supported, you can use `devices` command as shown below.
-`
+
 ```bash
 edgebenchmark devices
 ```
 
-This command will return you a list of available devices which you can then specify for benchmarking `--device`.
+This command will return you a list of available devices which you can then specify for benchmarking using `--device` or `-d` parameter.
 
-```
+```bash
 OnePlus6t
 SamsungGalaxy3
 ```
 
 ## FAQ
 
-Here, you can find the most common questions and their answers.
-
-If you would like to ask any question, feel free to open a new issue or send us email to contact@bisonai.com.
+Here, you can find the most common questions and their answers. If you would like to ask any question, feel free to open a new issue or send us email to contact@bisonai.com.
 
 ### How to select multiple devices?
 
-Devices should be selected with `-d` od `--device` parameter.
-
-For example, following script will benchmark `model.tflite` model on `OnePlus6t` and `SonyXperiaZ5`.
+Devices should be selected with `-d` od `--device` parameter. For example, following script will benchmark `model.tflite` model on `OnePlus6t` and `SonyXperiaZ5`.
 
 ```bash
 edgebenchmark tflite \
