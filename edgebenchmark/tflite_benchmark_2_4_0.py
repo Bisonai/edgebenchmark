@@ -60,7 +60,7 @@ class TFLiteBenchmark_2_4_0(EdgeBenchmark):
     #     self.nnapi_allow_fp16 = False
     #     self.use_xnnpack = False
 
-    @property
+    @staticmethod
     def parameters():
         return (
             ("num_runs", int),
