@@ -129,3 +129,7 @@ def load_token_from_file():
         print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n" \
               "Set token with commmand: edgebenchmark configure", file.sys.stderr)
         sys.exit(1)
+
+
+def filter_dict(d: Dict):
+    return dict(filter(lambda x: x[1], d.items()))
