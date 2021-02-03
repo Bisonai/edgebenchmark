@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+import os
 from enum import Enum
 from pathlib import Path
 
@@ -23,8 +24,9 @@ class settings:
     _CONFIGURE_DIR = Path.home() / ".edgebenchmark"
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"
     _TOKEN_LENGTH = 128
-    _MODEL_ENDPOINT = "https://edgebenchmark.com/api/model"
-    _DEVICE_ENDPOINT = "https://edgebenchmark.com/api/devices"
+    _WEB_SERVER_URL = "https://edgebenchmark.com" if not os.environ.get("EDGEBENCHMARK_DRY_RUN") else "http://localhost"
+    _MODEL_ENDPOINT = f"{_WEB_SERVER_URL}/api/model"
+    _DEVICE_ENDPOINT = f"{_WEB_SERVER_URL}/api/devices"
 
     _TFLITE_VERSIONS = [
         "1.14.0",
