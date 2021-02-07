@@ -18,44 +18,45 @@ from edgebenchmark.edgebenchmark import EdgeBenchmark
 
 
 class TFLiteBenchmark_1_14_0(EdgeBenchmark):
-    # def __init__(self):
-        # super().__init__()
-
-        # self.num_runs = 50
-        # self.min_secs = 1
-        # self.run_delay = -1
-        # self.num_threads = 1
-        # self.benchmark_name = ""
-        # self.output_prefix = ""
-        # self.warmup_runs = 1
-        # self.warmup_min_secs = 0.5
-        # self.input_layer = ""
-        # self.input_layer_shape = ""
-        # self.use_nnapi = False
-        # self.use_legacy_nnapi = False
-        # self.use_gpu = False
-        # self.allow_fp16 = False
-        # self.enable_op_profiling = False
+    @staticmethod
+    def default():
+        return {
+            "num_runs": 50,
+            "min_secs": 1,
+            "run_delay": -1,
+            "num_threads": 1,
+            "benchmark_name": "",
+            "output_prefix": "",
+            "warmup_runs":  1,
+            "warmup_min_secs": 0.5,
+            "input_layer": "",
+            "input_layer_shape": "",
+            "use_nnapi":  False,
+            "use_legacy_nnapi": False,
+            "use_gpu": False,
+            "allow_fp16": False,
+            "enable_op_profiling": False,
+        }
 
     @staticmethod
     def parameters():
-        return (
-            ("num_runs", int),
-            ("min_secs", int),
-            ("run_delay", int),
-            ("num_threads", int),
-            ("benchmark_name", str),
-            ("output_prefix", str),
-            ("warmup_runs", int),
-            ("warmup_min_secs", float),
-            ("input_layer", str),
-            ("input_layer_shape", str),
-            ("use_nnapi", bool),
-            ("use_legacy_nnapi", bool),
-            ("use_gpu", bool),
-            ("allow_fp16", bool),
-            ("enable_op_profiling", bool),
-        )
+        return {
+            "num_runs": int,
+            # "min_secs": int,
+            "run_delay": int,
+            "num_threads": int,
+            "benchmark_name": str,
+            "output_prefix": str,
+            "warmup_runs": int,
+            # "warmup_min_secs": float,
+            "input_layer": str,
+            "input_layer_shape": str,
+            # "use_nnapi": bool,
+            # "use_legacy_nnapi": bool,
+            # "use_gpu": bool,
+            "allow_fp16": bool,
+            # "enable_op_profiling": bool,
+        }
 
     @property
     def num_runs(self):
@@ -169,7 +170,6 @@ class TFLiteBenchmark_1_14_0(EdgeBenchmark):
             self.set_parameter("warmup_min_secs", value)
         else:
             raise ValueError("warmup_min_secs must be type of float")
-
 
     @property
     def input_layer(self):

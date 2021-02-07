@@ -18,94 +18,95 @@ from edgebenchmark.edgebenchmark import EdgeBenchmark
 
 
 class TFLiteBenchmark_2_3_0(EdgeBenchmark):
-    # def __init__(self):
-    #     super().__init__()
-
-    #     self.num_runs = 50
-    #     self.min_secs = 1
-    #     self.max_secs = 150
-    #     self.run_delay = -1
-    #     self.num_threads = 1
-    #     self.benchmark_name = ""
-    #     self.output_prefix = ""
-    #     self.warmup_runs = 1
-    #     self.warmup_min_secs = 0.5
-    #     self.input_layer = ""
-    #     self.input_layer_shape = ""
-    #     self.input_layer_value_range = ""
-    #     self.input_layer_value_files = ""
-    #     self.use_legacy_nnapi = False
-    #     self.allow_fp16 = False
-    #     self.require_full_delegation = False
-    #     self.enable_op_profiling = False
-    #     self.max_profiling_buffer_entries = 1_024
-    #     self.profiling_output_csv_file = ""
-    #     self.enable_platform_tracing = False
-    #     self.max_delegated_partitions = 0
-    #     self.min_nodes_per_partition = 0
-    #     self.external_delegate_path = ""
-    #     self.external_delegate_options = ""
-    #     self.use_gpu = False
-    #     self.gpu_precision_loss_allowed = True
-    #     self.gpu_experimental_enable_quant = True
-    #     self.gpu_backend = ""
-    #     self.use_hexagon = False
-    #     self.hexagon_lib_path = "/data/local/tmp"
-    #     self.hexagon_profiling = False
-    #     self.use_nnapi = False
-    #     self.nnapi_execution_preference = ""
-    #     self.nnapi_accelerator_name = ""
-    #     self.disable_nnapi_cpu = False
-    #     self.nnapi_allow_fp16 = False
-    #     self.use_xnnpack = False
+    @staticmethod
+    def default():
+        return {
+            "num_runs": 50,
+            "min_secs": 1,
+            "max_secs": 150,
+            "run_delay": -1,
+            "num_threads": 1,
+            "benchmark_name": "",
+            "output_prefix": "",
+            "warmup_runs": 1,
+            "warmup_min_secs": 0.5,
+            "input_layer": "",
+            "input_layer_shape": "",
+            "input_layer_value_range": "",
+            "input_layer_value_files": "",
+            "use_legacy_nnapi": False,
+            "allow_fp16": False,
+            "require_full_delegation": False,
+            "enable_op_profiling": False,
+            "max_profiling_buffer_entries": 1_024,
+            "profiling_output_csv_file": "",
+            "enable_platform_tracing": False,
+            "max_delegated_partitions": 0,
+            "min_nodes_per_partition": 0,
+            "external_delegate_path": "",
+            "external_delegate_options": "",
+            "use_gpu": False,
+            "gpu_precision_loss_allowed": True,
+            "gpu_experimental_enable_quant": True,
+            "gpu_backend": "",
+            "use_hexagon": False,
+            "hexagon_lib_path": "/data/local/tmp",
+            "hexagon_profiling": False,
+            "use_nnapi": False,
+            "nnapi_execution_preference": "",
+            "nnapi_accelerator_name": "",
+            "disable_nnapi_cpu": False,
+            "nnapi_allow_fp16": False,
+            "use_xnnpack": False,
+        }
 
     @staticmethod
     def parameters():
-        return (
-            ("num_runs", int),
-            ("min_secs", int),
-            ("max_secs", int),
-            ("run_delay", int),
-            ("num_threads", int),
-            ("benchmark_name", str),
-            ("output_prefix", str),
-            ("warmup_runs", int),
-            ("warmup_min_secs", float),
-            ("input_layer", str),
-            ("input_layer_shape", str),
-            ("input_layer_value_range", str),
-            ("input_layer_value_files", str),
-            ("use_legacy_nnapi", bool),
-            ("allow_fp16", bool),
-            ("require_full_delegation", bool),
-            ("enable_op_profiling", bool),
-            ("max_profiling_buffer_entries", int),
-            ("profiling_output_csv_file", str),
-            ("enable_platform_tracing", bool),
-            ("max_delegated_partitions", int),
-            ("min_nodes_per_partition", int),
-            ("external_delegate_path", str),
-            ("external_delegate_options", str),
-            ("use_gpu", bool),
-            ("gpu_precision_loss_allowed", bool),
-            ("gpu_experimental_enable_quant", bool),
-            ("gpu_backend", str),
-            ("use_hexagon", bool),
-            ("hexagon_lib_path", str),
-            ("hexagon_profiling", bool),
-            ("use_nnapi", bool),
-            ("nnapi_execution_preference", str),
-            ("nnapi_accelerator_name", str),
-            ("disable_nnapi_cpu", bool),
-            ("nnapi_allow_fp16", bool),
-            ("use_xnnpack", bool),
-        )
+        return {
+            "num_runs": int,
+            # "min_secs": int,
+            "max_secs": int,
+            "run_delay": int,
+            "num_threads": int,
+            "benchmark_name": str,
+            "output_prefix": str,
+            "warmup_runs": int,
+            # "warmup_min_secs": float,
+            "input_layer": str,
+            "input_layer_shape": str,
+            "input_layer_value_range": str,
+            # "input_layer_value_files": str,
+            # "use_legacy_nnapi": bool,
+            "allow_fp16": bool,
+            # "require_full_delegation": bool,
+            # "enable_op_profiling": bool,
+            # "max_profiling_buffer_entries": int,
+            # "profiling_output_csv_file": str,
+            # "enable_platform_tracing": bool,
+            # "max_delegated_partitions": int,
+            # "min_nodes_per_partition": int,
+            # "external_delegate_path": str,
+            # "external_delegate_options": str,
+            # "use_gpu": bool,
+            # "gpu_precision_loss_allowed": bool,
+            # "gpu_experimental_enable_quant": bool,
+            # "gpu_backend": str,
+            # "use_hexagon": bool,
+            # "hexagon_lib_path": str,
+            # "hexagon_profiling": bool,
+            # "use_nnapi": bool,
+            # "nnapi_execution_preference": str,
+            # "nnapi_accelerator_name": str,
+            # "disable_nnapi_cpu": bool,
+            # "nnapi_allow_fp16": bool,
+            # "use_xnnpack": bool,
+        }
 
     @property
     def num_runs(self):
         """expected number of runs, see also min_secs, max_secs
         """
-        return get_parameter("num_runs")
+        return self.get_parameter("num_runs")
 
     @num_runs.setter
     def num_runs(self, value: int):
@@ -118,7 +119,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         """minimum number of seconds to rerun for, potentially making
         the actual number of runs to be greater than num_runs
         """
-        return get_parameter("min_secs")
+        return self.get_parameter("min_secs")
 
     @min_secs.setter
     def min_secs(self, value: Union[int, float]):
@@ -138,7 +139,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         will continue to the end of the run but will not start the
         next run.
         """
-        return get_parameter("max_secs")
+        return self.get_parameter("max_secs")
 
     @max_secs.setter
     def max_secs(self, value: Union[int, float]):
@@ -154,7 +155,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def run_delay(self):
         """delay between runs in seconds
         """
-        return get_parameter("run_delay")
+        return self.get_parameter("run_delay")
 
     @run_delay.setter
     def run_delay(self, value: Union[int, float]):
@@ -170,7 +171,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def num_threads(self):
         """number of threads
         """
-        return get_parameter("num_threads")
+        return self.get_parameter("num_threads")
 
     @num_threads.setter
     def num_threads(self, value: int):
@@ -182,7 +183,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def benchmark_name(self):
         """benchmark name
         """
-        return get_parameter("benchmark_name")
+        return self.get_parameter("benchmark_name")
 
     @benchmark_name.setter
     def benchmark_name(self, value: str):
@@ -194,7 +195,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def output_prefix(self):
         """benchmark output prefix
         """
-        return get_parameter("output_prefix")
+        return self.get_parameter("output_prefix")
 
     @output_prefix.setter
     def output_prefix(self, value: str):
@@ -208,7 +209,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         allow performance characteristics to settle, see also
         warmup_min_secs
         """
-        return get_parameter("warmup_runs")
+        return self.get_parameter("warmup_runs")
 
     @warmup_runs.setter
     def warmup_runs(self, value: int):
@@ -222,7 +223,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         the actual number of warm-up runs to be greater than
         warmup_runs
         """
-        return get_parameter("warmup_min_secs")
+        return self.get_parameter("warmup_min_secs")
 
     @warmup_min_secs.setter
     def warmup_min_secs(self, value: Union[int, float]):
@@ -238,7 +239,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def input_layer(self):
         """input layer names
         """
-        return get_parameter("input_layer")
+        return self.get_parameter("input_layer")
 
     @input_layer.setter
     def input_layer(self, value: str):
@@ -250,7 +251,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def input_layer_shape(self):
         """input layer shape
         """
-        return get_parameter("input_layer_shape")
+        return self.get_parameter("input_layer_shape")
 
     @input_layer_shape.setter
     def input_layer_shape(self, value: str):
@@ -266,7 +267,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         values (both low and high are inclusive) separated by ',',
         e.g. input1,1,2:input2,0,254
         """
-        return get_parameter("input_layer_value_range")
+        return self.get_parameter("input_layer_value_range")
 
     @input_layer_value_range.setter
     def input_layer_value_range(self, value: str):
@@ -284,7 +285,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         input_layer_value_files, input_layer_value_range of the
         input_name will be ignored.
         """
-        return get_parameter("input_layer_value_files")
+        return self.get_parameter("input_layer_value_files")
 
     @input_layer_value_files.setter
     def input_layer_value_files(self, value: str):
@@ -296,7 +297,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def use_legacy_nnapi(self):
         """nnapi legacy delegate api
         """
-        return get_parameter("use_legacy_nnapi")
+        return self.get_parameter("use_legacy_nnapi")
 
     @use_legacy_nnapi.setter
     def use_legacy_nnapi(self, value: bool):
@@ -308,7 +309,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def allow_fp16(self):
         """use fp16
         """
-        return get_parameter("allow_fp16")
+        return self.get_parameter("allow_fp16")
 
     @allow_fp16.setter
     def allow_fp16(self, value: bool):
@@ -320,7 +321,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def require_full_delegation(self):
         """require delegate to run the entire graph
         """
-        return get_parameter("require_full_delegation")
+        return self.get_parameter("require_full_delegation")
 
     @require_full_delegation.setter
     def require_full_delegation(self, value: bool):
@@ -332,7 +333,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def enable_op_profiling(self):
         """enable op profiling
         """
-        return get_parameter("enable_op_profiling")
+        return self.get_parameter("enable_op_profiling")
 
     @enable_op_profiling.setter
     def enable_op_profiling(self, value: bool):
@@ -344,12 +345,13 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def max_profiling_buffer_entries(self):
         """max profiling buffer entries
         """
-        return get_parameter("max_profiling_buffer_entries")
+        return self.get_parameter("max_profiling_buffer_entries")
 
     @max_profiling_buffer_entries.setter
     def max_profiling_buffer_entries(self, value: int):
         if not isinstance(value, int):
-            raise ValueError("max_profiling_buffer_entries must be type of int")
+            raise ValueError(
+                "max_profiling_buffer_entries must be type of int")
         self.set_parameter("max_profiling_buffer_entries", value)
 
     @property
@@ -357,7 +359,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         """File path to export profile data as CSV, if not set prints
         to stdout.
         """
-        return get_parameter("profiling_output_csv_file")
+        return self.get_parameter("profiling_output_csv_file")
 
     @profiling_output_csv_file.setter
     def profiling_output_csv_file(self, value: str):
@@ -370,7 +372,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         """enable platform-wide tracing, only meaningful when
         --enable_op_profiling is set to true.
         """
-        return get_parameter("enable_platform_tracing")
+        return self.get_parameter("enable_platform_tracing")
 
     @enable_platform_tracing.setter
     def enable_platform_tracing(self, value: bool):
@@ -382,7 +384,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def max_delegated_partitions(self):
         """Max partitions to be delegated.
         """
-        return get_parameter("max_delegated_partitions")
+        return self.get_parameter("max_delegated_partitions")
 
     @max_delegated_partitions.setter
     def max_delegated_partitions(self, value: int):
@@ -396,7 +398,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         that has to be reached for it to be delegated.A negative value
         or 0 means to use the default choice of each delegate.
         """
-        return get_parameter("min_nodes_per_partition")
+        return self.get_parameter("min_nodes_per_partition")
 
     @min_nodes_per_partition.setter
     def min_nodes_per_partition(self, value: int):
@@ -408,7 +410,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def external_delegate_path(self):
         """The library path for the underlying external.
         """
-        return get_parameter("external_delegate_path")
+        return self.get_parameter("external_delegate_path")
 
     @external_delegate_path.setter
     def external_delegate_path(self, value: str):
@@ -420,7 +422,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def external_delegate_options(self):
         """Comma-separated options to be passed to the external delegate
         """
-        return get_parameter("external_delegate_options")
+        return self.get_parameter("external_delegate_options")
 
     @external_delegate_options.setter
     def external_delegate_options(self, value: str):
@@ -432,7 +434,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def use_gpu(self):
         """use gpu
         """
-        return get_parameter("use_gpu")
+        return self.get_parameter("use_gpu")
 
     @use_gpu.setter
     def use_gpu(self, value: bool):
@@ -445,7 +447,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         """Allow to process computation in lower precision than FP32
         in GPU. By default, it's enabled.
         """
-        return get_parameter("gpu_precision_loss_allowed")
+        return self.get_parameter("gpu_precision_loss_allowed")
 
     @gpu_precision_loss_allowed.setter
     def gpu_precision_loss_allowed(self, value: bool):
@@ -458,12 +460,13 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         """Whether to enable the GPU delegate to run quantized models
         or not. By default, it's enabled.
         """
-        return get_parameter("gpu_experimental_enable_quant")
+        return self.get_parameter("gpu_experimental_enable_quant")
 
     @gpu_experimental_enable_quant.setter
     def gpu_experimental_enable_quant(self, value: bool):
         if not isinstance(value, bool):
-            raise ValueError("gpu_experimental_enable_quant must be type of bool")
+            raise ValueError(
+                "gpu_experimental_enable_quant must be type of bool")
         self.set_parameter("gpu_experimental_enable_quant", value)
 
     @property
@@ -471,7 +474,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         """Force the GPU delegate to use a particular backend for
         execution, and fail if unsuccessful. Should be one of: cl, gl
         """
-        return get_parameter("gpu_backend")
+        return self.get_parameter("gpu_backend")
 
     @gpu_backend.setter
     def gpu_backend(self, value: str):
@@ -483,7 +486,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def use_hexagon(self):
         """use nnapi delegate api
         """
-        return get_parameter("use_hexagon")
+        return self.get_parameter("use_hexagon")
 
     @use_hexagon.setter
     def use_hexagon(self, value: bool):
@@ -495,7 +498,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def hexagon_lib_path(self):
         """The library path for the underlying Hexagon libraries.
         """
-        return get_parameter("hexagon_lib_path")
+        return self.get_parameter("hexagon_lib_path")
 
     @hexagon_lib_path.setter
     def hexagon_lib_path(self, value: str):
@@ -507,7 +510,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def hexagon_profiling(self):
         """Enables Hexagon profiling
         """
-        return get_parameter("hexagon_profiling")
+        return self.get_parameter("hexagon_profiling")
 
     @hexagon_profiling.setter
     def hexagon_profiling(self, value: bool):
@@ -519,7 +522,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def use_nnapi(self):
         """use nnapi delegate api
         """
-        return get_parameter("use_nnapi")
+        return self.get_parameter("use_nnapi")
 
     @use_nnapi.setter
     def use_nnapi(self, value: bool):
@@ -533,7 +536,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
         the following: fast_single_answer, sustained_speed, low_power,
         undefined
         """
-        return get_parameter("nnapi_execution_preference")
+        return self.get_parameter("nnapi_execution_preference")
 
     @nnapi_execution_preference.setter
     def nnapi_execution_preference(self, value: str):
@@ -545,7 +548,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def nnapi_accelerator_name(self):
         """the name of the nnapi accelerator to use (requires Android Q+)
         """
-        return get_parameter("nnapi_accelerator_name")
+        return self.get_parameter("nnapi_accelerator_name")
 
     @nnapi_accelerator_name.setter
     def nnapi_accelerator_name(self, value: str):
@@ -557,7 +560,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def disable_nnapi_cpu(self):
         """Disable the NNAPI CPU device
         """
-        return get_parameter("disable_nnapi_cpu")
+        return self.get_parameter("disable_nnapi_cpu")
 
     @disable_nnapi_cpu.setter
     def disable_nnapi_cpu(self, value: bool):
@@ -569,7 +572,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def nnapi_allow_fp16(self):
         """Allow fp32 computation to be run in fp16
         """
-        return get_parameter("nnapi_allow_fp16")
+        return self.get_parameter("nnapi_allow_fp16")
 
     @nnapi_allow_fp16.setter
     def nnapi_allow_fp16(self, value: bool):
@@ -581,7 +584,7 @@ class TFLiteBenchmark_2_3_0(EdgeBenchmark):
     def use_xnnpack(self):
         """use XNNPack
         """
-        return get_parameter("use_xnnpack")
+        return self.get_parameter("use_xnnpack")
 
     @use_xnnpack.setter
     def use_xnnpack(self, value: bool):

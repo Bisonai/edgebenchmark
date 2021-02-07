@@ -110,7 +110,7 @@ def common_benchmark_options(fn):
 
 def tflite_options(TFLiteBenchmark_class):
     def wrapper(fn):
-        for name, type in TFLiteBenchmark_class.parameters():
+        for name, type in TFLiteBenchmark_class.parameters().items():
             fn = click.option(f"--{name}", type=type)(fn)
         return fn
 

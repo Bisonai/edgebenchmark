@@ -108,8 +108,8 @@ class EdgeBenchmark(ABC):
     def help(self):
         """Print all supported parameters
         """
-        padding = max(list(map(lambda x: len(x[0]), self.parameters())))
-        for name, type in self.parameters():
+        padding = max(list(map(lambda x: len(x[0]), self.parameters().items())))
+        for name, type in self.parameters().items():
             print(name.ljust(padding, " ") , type)
 
     def supported(self, parameter_name: str):
@@ -121,12 +121,15 @@ class EdgeBenchmark(ABC):
         Raise:
           NameError: raise exception if `parameter_name` is not supported
         """
-        if not any(list(map(lambda x: x[0] == parameter_name, self.parameters()))):
+        if not any(list(map(lambda x: x[0] == parameter_name, self.parameters().items()))):
             raise NameError(f"{parameter_name} is not supported")
 
-    # @abstractmethod
     @staticmethod
     def parameters():
+        raise NotImplementedError
+
+    @staticmethod
+    def default():
         raise NotImplementedError
 
     def get_parameter(self, name: str):

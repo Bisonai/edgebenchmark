@@ -19,7 +19,7 @@ from pathlib import Path
 
 class settings:
     _MODEL_LIMIT_SIZE_MB = 30
-    _PROTOCOL_VERSION = [0, 0, 1]
+    _PROTOCOL_VERSION = [0, 0, 2]
 
     _CONFIGURE_DIR = Path.home() / ".edgebenchmark"
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"

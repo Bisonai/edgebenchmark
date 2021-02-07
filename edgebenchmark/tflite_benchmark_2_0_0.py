@@ -18,56 +18,57 @@ from edgebenchmark.edgebenchmark import EdgeBenchmark
 
 
 class TFLiteBenchmark_2_0_0(EdgeBenchmark):
-    # def __init__(self):
-    #     super().__init__()
-
-    #     self.num_runs = 50
-    #     self.min_secs = 1
-    #     self.max_secs = 150
-    #     self.run_delay = -1
-    #     self.num_threads = 1
-    #     self.benchmark_name = ""
-    #     self.output_prefix = ""
-    #     self.warmup_runs = 1
-    #     self.warmup_min_secs = 0.5
-    #     self.input_layer = ""
-    #     self.input_layer_shape = ""
-    #     self.use_nnapi = False
-    #     self.use_legacy_nnapi = False
-    #     self.nnapi_accelerator_name = ""
-    #     self.use_gpu = False
-    #     self.allow_fp16 = False
-    #     self.enable_op_profiling = False
-    #     self.max_profiling_buffer_entries = 1_024
+    @staticmethod
+    def default():
+        return {
+            "num_runs": 50,
+            "min_secs": 1,
+            "max_secs": 150,
+            "run_delay": -1,
+            "num_threads": 1,
+            "benchmark_name": "",
+            "output_prefix": "",
+            "warmup_runs": 1,
+            "warmup_min_secs": 0.5,
+            "input_layer": "",
+            "input_layer_shape": "",
+            "use_nnapi": False,
+            "use_legacy_nnapi": False,
+            "nnapi_accelerator_name": "",
+            "use_gpu": False,
+            "allow_fp16": False,
+            "enable_op_profiling": False,
+            "max_profiling_buffer_entries": 1_024,
+        }
 
     @staticmethod
     def parameters():
-        return (
-            ("num_runs", int),
-            ("min_secs", int),
-            ("max_secs", int),
-            ("run_delay", int),
-            ("num_threads", int),
-            ("benchmark_name", str),
-            ("output_prefix", str),
-            ("warmup_runs", int),
-            ("warmup_min_secs", float),
-            ("input_layer", str),
-            ("input_layer_shape", str),
-            ("use_nnapi", bool),
-            ("use_legacy_nnapi", bool),
-            ("nnapi_accelerator_name", str),
-            ("use_gpu", bool),
-            ("allow_fp16", bool),
-            ("enable_op_profiling", bool),
-            ("max_profiling_buffer_entries", int),
-        )
+        return {
+            "num_runs": int,
+            # "min_secs": int,
+            "max_secs": int,
+            "run_delay": int,
+            "num_threads": int,
+            "benchmark_name": str,
+            "output_prefix": str,
+            "warmup_runs": int,
+            # "warmup_min_secs": float,
+            "input_layer": str,
+            "input_layer_shape": str,
+            # "use_nnapi": bool,
+            # "use_legacy_nnapi": bool,
+            # "nnapi_accelerator_name": str,
+            # "use_gpu": bool,
+            "allow_fp16": bool,
+            # "enable_op_profiling": bool,
+            # "max_profiling_buffer_entries": int,
+        }
 
     @property
     def num_runs(self):
         """expected number of runs, see also min_secs, max_secs
         """
-        return get_parameter("num_runs")
+        return self.get_parameter("num_runs")
 
     @num_runs.setter
     def num_runs(self, value: int):
@@ -80,7 +81,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
         """minimum number of seconds to rerun for, potentially making
         the actual number of runs to be greater than num_runs
         """
-        return get_parameter("min_secs")
+        return self.get_parameter("min_secs")
 
     @min_secs.setter
     def min_secs(self, value: Union[int, float]):
@@ -100,7 +101,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
         will continue to the end of the run but will not start the
         next run.
         """
-        return get_parameter("max_secs")
+        return self.get_parameter("max_secs")
 
     @max_secs.setter
     def max_secs(self, value: Union[int, float]):
@@ -116,7 +117,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def run_delay(self):
         """delay between runs in seconds
         """
-        return get_parameter("run_delay")
+        return self.get_parameter("run_delay")
 
     @run_delay.setter
     def run_delay(self, value: Union[int, float]):
@@ -132,7 +133,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def num_threads(self):
         """number of threads
         """
-        return get_parameter("num_threads")
+        return self.get_parameter("num_threads")
 
     @num_threads.setter
     def num_threads(self, value: int):
@@ -144,7 +145,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def benchmark_name(self):
         """benchmark name
         """
-        return get_parameter("benchmark_name")
+        return self.get_parameter("benchmark_name")
 
     @benchmark_name.setter
     def benchmark_name(self, value: str):
@@ -156,7 +157,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def output_prefix(self):
         """benchmark output prefix
         """
-        return get_parameter("output_prefix")
+        return self.get_parameter("output_prefix")
 
     @output_prefix.setter
     def output_prefix(self, value: str):
@@ -170,7 +171,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
         allow performance characteristics to settle, see also
         warmup_min_secs
         """
-        return get_parameter("warmup_runs")
+        return self.get_parameter("warmup_runs")
 
     @warmup_runs.setter
     def warmup_runs(self, value: int):
@@ -184,7 +185,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
         the actual number of warm-up runs to be greater than
         warmup_runs
         """
-        return get_parameter("warmup_min_secs")
+        return self.get_parameter("warmup_min_secs")
 
     @warmup_min_secs.setter
     def warmup_min_secs(self, value: Union[int, float]):
@@ -200,7 +201,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def input_layer(self):
         """input layer names
         """
-        return get_parameter("input_layer")
+        return self.get_parameter("input_layer")
 
     @input_layer.setter
     def input_layer(self, value: str):
@@ -212,7 +213,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def input_layer_shape(self):
         """input layer shape
         """
-        return get_parameter("input_layer_shape")
+        return self.get_parameter("input_layer_shape")
 
     @input_layer_shape.setter
     def input_layer_shape(self, value: str):
@@ -224,7 +225,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def use_nnapi(self):
         """use nnapi delegate api
         """
-        return get_parameter("use_nnapi")
+        return self.get_parameter("use_nnapi")
 
     @use_nnapi.setter
     def use_nnapi(self, value: bool):
@@ -236,7 +237,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def use_legacy_nnapi(self):
         """nnapi legacy delegate api
         """
-        return get_parameter("use_legacy_nnapi")
+        return self.get_parameter("use_legacy_nnapi")
 
     @use_legacy_nnapi.setter
     def use_legacy_nnapi(self, value: bool):
@@ -248,7 +249,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def nnapi_accelerator_name(self):
         """the name of the nnapi accelerator to use (requires Android Q+)
         """
-        return get_parameter("nnapi_accelerator_name")
+        return self.get_parameter("nnapi_accelerator_name")
 
     @nnapi_accelerator_name.setter
     def nnapi_accelerator_name(self, value: str):
@@ -260,7 +261,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def use_gpu(self):
         """use gpu
         """
-        return get_parameter("use_gpu")
+        return self.get_parameter("use_gpu")
 
     @use_gpu.setter
     def use_gpu(self, value: bool):
@@ -272,7 +273,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def allow_fp16(self):
         """use fp16
         """
-        return get_parameter("allow_fp16")
+        return self.get_parameter("allow_fp16")
 
     @allow_fp16.setter
     def allow_fp16(self, value: bool):
@@ -284,7 +285,7 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def enable_op_profiling(self):
         """enable op profiling
         """
-        return get_parameter("enable_op_profiling")
+        return self.get_parameter("enable_op_profiling")
 
     @enable_op_profiling.setter
     def enable_op_profiling(self, value: bool):
@@ -296,10 +297,11 @@ class TFLiteBenchmark_2_0_0(EdgeBenchmark):
     def max_profiling_buffer_entries(self):
         """max profiling buffer entries
         """
-        return get_parameter("max_profiling_buffer_entries")
+        return self.get_parameter("max_profiling_buffer_entries")
 
     @max_profiling_buffer_entries.setter
     def max_profiling_buffer_entries(self, value: int):
         if not isinstance(value, int):
-            raise ValueError("max_profiling_buffer_entries must be type of int")
+            raise ValueError(
+                "max_profiling_buffer_entries must be type of int")
         self.set_parameter("max_profiling_buffer_entries", value)
