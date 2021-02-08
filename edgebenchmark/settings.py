@@ -12,41 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+import os
 from enum import Enum
 from pathlib import Path
 
 
 class settings:
     _MODEL_LIMIT_SIZE_MB = 30
-    _PROTOCOL_VERSION = [0, 0, 1]
+    _PROTOCOL_VERSION = [0, 0, 2]
 
     _CONFIGURE_DIR = Path.home() / ".edgebenchmark"
     _CREDENTIALS_FILE_PATH = _CONFIGURE_DIR / "credentials"
     _TOKEN_LENGTH = 128
-    _MODEL_ENDPOINT = "https://edgebenchmark.com/api/model"
-    _DEVICE_ENDPOINT = "https://edgebenchmark.com/api/devices"
+    _WEB_SERVER_URL = "https://edgebenchmark.com" if not os.environ.get("EDGEBENCHMARK_DRY_RUN") else "http://localhost"
+    _MODEL_ENDPOINT = f"{_WEB_SERVER_URL}/api/model"
+    _DEVICE_ENDPOINT = f"{_WEB_SERVER_URL}/api/devices"
 
     _TFLITE_VERSIONS = [
-        "1.13.1",
-        "1.13.2",
         "1.14.0",
         "1.15.0",
         "1.15.2",
         "1.15.3",
         "1.15.4",
-        "1.2.0",
-        "1.2.1",
-        "1.3.0",
-        "1.3.1",
-        "1.4.0",
-        "1.4.1",
-        "1.5.0",
-        "1.5.1",
-        "1.6.0",
-        "1.7.0",
-        "1.7.1",
-        "1.8.0",
-        "1.9.0",
         "2.0.0",
         "2.0.1",
         "2.0.2",
@@ -59,6 +46,7 @@ class settings:
         "2.3.0",
         "2.3.1",
         "2.4.0",
+        "2.4.1",
     ]
 
 

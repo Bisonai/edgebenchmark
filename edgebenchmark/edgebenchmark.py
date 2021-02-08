@@ -20,21 +20,22 @@ from typing import List
 from typing import Tuple
 from typing import Dict
 from typing import Union
+from typing import Any
 
 from edgebenchmark.utils import send_model
 from edgebenchmark.utils import load_token_from_file
 from edgebenchmark.settings import settings
-from edgebenchmark.settings import available_benchmarks
 from edgebenchmark.custom_types import verify_model_file
 
 
 class EdgeBenchmark(ABC):
-    def __init__(self):
+    def __init__(self, version: int):
+        self.version = version
+
         self._devices = ["all"]
         self._protocol_version = settings._PROTOCOL_VERSION
         self._features = {}
-        self._version = settings._TFLITE_VERSIONS[-1]
-        self._args = self.default_args()
+        self._args = {}
 
         try:
             self._token = load_token_from_file()
@@ -45,12 +46,21 @@ class EdgeBenchmark(ABC):
             sys.exit(1)
 
     @property
+    def version(self):
+        return self._version
+
+    @version.setter
+    def version(self, value: str):
+        if not isinstance(value, str):
+            value = str(value)
+        self._version = value
+
+    @property
     def devices(self):
         return self._devices
 
     @devices.setter
     def devices(self, value: List[str]):
-        # TODO check device availability
         if not isinstance(value, Tuple):
             value = list(value)
         elif not isinstance(value, List):
@@ -70,6 +80,10 @@ class EdgeBenchmark(ABC):
             raise ValueError("Features have to stored in Dict or as a str type")
 
         self._features = value
+
+    @property
+    def args(self):
+        return self._args
 
     def run(self, model_path: Union[Path, str]):
         model_path = verify_model_file(model_path)
@@ -91,128 +105,37 @@ class EdgeBenchmark(ABC):
         else:
             print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
-    @property
-    def args(self):
-        return self._args
+    def help(self):
+        """Print all supported parameters
+        """
+        padding = max(list(map(lambda x: len(x[0]), self.parameters().items())))
+        for name, type in self.parameters().items():
+            print(name.ljust(padding, " ") , type)
 
-    @property
-    @abstractmethod
-    def benchmark_type(self):
-        return None
+    def supported(self, parameter_name: str):
+        """Find out if `parameter_name` is supported.
 
+        Args:
+          parameter_name: name of parameter
 
-class TFLiteBenchmark(EdgeBenchmark):
-    def default_args(self):
-        return {
-            "num_threads": 1,
-            "warmup_runs":  1,
-            "num_runs": 50,
-            "run_delay": -1.0,
-            "use_nnapi": False,
-            "use_legacy_nnapi": False,
-            "use_gpu": False,
-        }
+        Raise:
+          NameError: raise exception if `parameter_name` is not supported
+        """
+        if not any(list(map(lambda x: x[0] == parameter_name, self.parameters().items()))):
+            raise NameError(f"{parameter_name} is not supported")
 
-    @property
-    def benchmark_type(self):
-        return available_benchmarks.tflite_basic
+    @staticmethod
+    def parameters():
+        raise NotImplementedError
 
-    @property
-    def version(self):
-        return self._version
+    @staticmethod
+    def default():
+        raise NotImplementedError
 
-    @version.setter
-    def version(self, value: str):
-        if not isinstance(value, str):
-            raise ValueError("Version of TF Lite should be defined using string type")
+    def get_parameter(self, name: str):
+        self.supported(name)
+        return self._args[name]
 
-        if value not in settings._TFLITE_VERSIONS:
-            raise ValueError(f"Wrong version of TF Lite. Use any of available versions {', '.join(settings._TFLITE_VERSIONS)}")
-
-        self._version = value
-
-    @property
-    def num_threads(self):
-        return self._args["num_threads"]
-
-    @num_threads.setter
-    def num_threads(self, value: int):
-        if not isinstance(value, int):
-            raise ValueError("num_threads must be type of int")
-
-        self._args["num_threads"] = value
-
-    @property
-    def warmup_runs(self):
-        return self._args["warmup_runs"]
-
-    @warmup_runs.setter
-    def warmup_runs(self, value: int):
-        if not isinstance(value, int):
-            raise ValueError("warmup_runs must be type of int")
-
-        self._args["warmup_runs"] = value
-
-    @property
-    def num_runs(self):
-        return self._args["num_runs"]
-
-    @num_runs.setter
-    def num_runs(self, value: int):
-        if not isinstance(value, int):
-            raise ValueError("num_runs must be type of int")
-
-        self._args["num_runs"] = value
-
-    @property
-    def run_delay(self):
-        return self._args["run_delay"]
-
-    @run_delay.setter
-    def run_delay(self, value: float):
-        if not isinstance(value, float):
-            raise ValueError("run_delay must be type of float")
-
-        self._args["run_delay"] = value
-
-    @property
-    def use_nnapi(self):
-        return self._args["use_nnapi"]
-
-    @use_nnapi.setter
-    def use_nnapi(self, value: bool):
-        if not isinstance(value, bool):
-            raise ValueError("use_nnapi must be type of bool")
-
-        self._args["use_nnapi"] = value
-
-    @property
-    def use_legacy_nnapi(self):
-        return self._args["use_legacy_nnapi"]
-
-    @use_legacy_nnapi.setter
-    def use_legacy_nnapi(self, value: bool):
-        if not isinstance(value, bool):
-            raise ValueError("use_legacy_nnapi must be type of bool")
-
-        self._args["use_legacy_nnapi"] = value
-
-    @property
-    def use_gpu(self):
-        return self._args["use_gpu"]
-
-    @use_gpu.setter
-    def use_gpu(self, value: bool):
-        if not isinstance(value, bool):
-            raise ValueError("use_gpu must be type of bool")
-
-        self._args["use_gpu"] = value
-
-
-# class NCNNBenchmark(EdgeBenchmark):
-#     def default_args(self):
-#         return {}
-
-#     @property
-#     def benchmark_type(self):
-#         return available_benchmarks.ncnn
+    def set_parameter(self, name: str, value: Any):
+        self.supported(name)
+        self._args[name] = value

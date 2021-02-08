@@ -1,4 +1,4 @@
-# Copyright 2020 Bisonai Authors. All Rights Reserved.
+# Copyright 2021 Bisonai Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,15 @@ from edgebenchmark.settings import settings
 from edgebenchmark.custom_types import ModelPathType
 from edgebenchmark.custom_types import FeaturesType
 from edgebenchmark.custom_types import verify_token_size
+from edgebenchmark.utils import filter_dict
+
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_1_14_0
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_1_15_0
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_0_0
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_1_0
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_2_0
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_3_0
+from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_4_0
 
 
 @click.group()
@@ -61,68 +70,6 @@ def configure():
             f.write(f"edgebenchmark_token = {token}\n")
 
 
-def common_benchmark_options(fn):
-    fn = click.option("--model_path", required=True, type=ModelPathType)(fn)
-    fn = click.option("--device", "-d", default=["all"], type=str, multiple=True)(fn) # TODO custom check
-    fn = click.option("--features", type=FeaturesType, default="{}")(fn)
-    return fn
-
-
-@click.group()
-def cli_tflite():
-    pass
-
-
-@cli_tflite.command()
-@common_benchmark_options
-@click.option("--num_threads", type=int, default=1)
-@click.option("--warmup_runs", type=int, default=1)
-@click.option("--num_runs", type=int, default=50)
-@click.option("--run_delay", type=float, default=-1.0)
-@click.option("--use_nnapi/--no-use_nnapi", default=False)
-@click.option("--use_legacy_nnapi/--no-use_legacy_nnapi", default=False)
-@click.option("--use_gpu/--no-use_gpu", default=False)
-@click.option("--version", default=settings._TFLITE_VERSIONS[-1], type=click.Choice(settings._TFLITE_VERSIONS, case_sensitive=True))
-def tflite(model_path, device, features, num_threads, warmup_runs, num_runs, run_delay, use_nnapi, use_legacy_nnapi, use_gpu, version):
-    args = {
-        "num_threads": num_threads,
-        "warmup_runs": warmup_runs,
-        "num_runs": num_runs,
-        "run_delay": run_delay,
-        "use_nnapi": use_nnapi,
-        "use_legacy_nnapi": use_legacy_nnapi,
-        "use_gpu": use_gpu,
-    }
-
-    benchmark(
-        model_path,
-        device,
-        features,
-        available_benchmarks.tflite_basic,
-        version,
-        args,
-    )
-
-
-# @click.group()
-# def cli_ncnn():
-    # pass
-
-
-# @cli_ncnn.command()
-# @common_benchmark_options
-# def ncnn(model_path, devices, features):
-    # args = {}
-
-    # benchmark(
-    #     model_path,
-    #     devices,
-    #     features,
-    #     available_benchmarks.ncnn,
-    #     args,
-    # )
-
-
 @click.group()
 def cli_devices():
     pass
@@ -147,6 +94,319 @@ def devices():
     response_data = json.loads(response.content.decode("ascii"))["data"]
     for d in response_data:
         print(d)
+
+
+@click.group()
+def cli_tflite():
+    pass
+
+
+def common_benchmark_options(fn):
+    fn = click.option("--model_path", required=True, type=ModelPathType)(fn)
+    fn = click.option("--device", "-d", default=["all"], type=str, multiple=True)(fn) # TODO custom check
+    fn = click.option("--features", type=FeaturesType, default="{}")(fn)
+    return fn
+
+
+def tflite_options(TFLiteBenchmark_class):
+    def wrapper(fn):
+        for name, type in TFLiteBenchmark_class.parameters().items():
+            fn = click.option(f"--{name}", type=type)(fn)
+        return fn
+
+    return wrapper
+
+
+@cli_tflite.group()
+def tflite():
+    pass
+
+
+@tflite.command("1.14.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_1_14_0)
+def tflite_1_14_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "1.14.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("1.15.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_1_15_0)
+def tflite_1_15_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "1.15.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("1.15.2")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_1_15_0)
+def tflite_1_15_2(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "1.15.2",
+        benchmark_args,
+    )
+
+
+@tflite.command("1.15.3")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_1_15_0)
+def tflite_1_15_3(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "1.15.3",
+        benchmark_args,
+    )
+
+
+@tflite.command("1.15.4")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_1_15_0)
+def tflite_1_15_4(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "1.15.4",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.0.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_0_0)
+def tflite_2_0_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.0.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.0.1")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_0_0)
+def tflite_2_0_1(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.0.1",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.0.2")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_0_0)
+def tflite_2_0_2(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.0.2",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.0.3")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_0_0)
+def tflite_2_0_3(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.0.3",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.1.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_1_0)
+def tflite_2_1_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.1.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.1.1")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_1_0)
+def tflite_2_1_1(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.1.1",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.1.2")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_1_0)
+def tflite_2_1_2(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.1.2",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.2.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_2_0)
+def tflite_2_2_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.2.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.2.1")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_2_0)
+def tflite_2_2_1(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.2.1",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.3.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_3_0)
+def tflite_2_3_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.3.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.4.0")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_4_0)
+def tflite_2_4_0(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.4.0",
+        benchmark_args,
+    )
+
+
+@tflite.command("2.4.1")
+@common_benchmark_options
+@tflite_options(TFLiteBenchmark_2_4_0)
+def tflite_2_4_1(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.tflite_basic,
+        "2.4.1",
+        benchmark_args,
+    )
+
+
+# @main.group()
+# def ncnn():
+#     pass
+
+
+# @ncnn.command("1.0.0")
+# def ncnn_1_0_0():
+#     print("1.0.0")
+
+
+# @ncnn.command("2.0.0")
+# def ncnn_2_0_0():
+#     print("2.0.0")
 
 
 def benchmark(
