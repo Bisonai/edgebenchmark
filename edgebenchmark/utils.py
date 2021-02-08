@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+import sys
 import requests
 import json
 import time
-import logging
 import hashlib
 from pathlib import Path
 
@@ -84,9 +84,9 @@ def get_devices(
 
 
 def md5_hash(
-    data: bytes=None,
-    filepath: Path=None,
-    buffer_size: int=65_536,
+    data: bytes = None,
+    filepath: Path = None,
+    buffer_size: int = 65_536,
 ):
     """
     Compute secure hash (md5) of given bytes data.  It is used to
@@ -123,12 +123,16 @@ def load_token_from_file():
                     if key == "edgebenchmark_token":
                         return value
             except Exception as e:
-                print(f"Invalid format of credentials file located at {settings._CONFIGURE_DIR}", file=sys.stderr)
-                sys.exit(1)
+                print(
+                    f"Invalid format of credentials file located at {settings._CONFIGURE_DIR}",
+                    file=sys.stderr,
+                )
     else:
-        print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n" \
-              "Set token with commmand: edgebenchmark configure", file.sys.stderr)
-        sys.exit(1)
+        print(
+            f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"
+            "Set token with commmand: edgebenchmark configure",
+            file=sys.stderr,
+        )
 
 
 def filter_dict(d: Dict):
