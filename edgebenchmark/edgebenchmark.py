@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+import sys
 import json
 from abc import ABC
-from abc import abstractmethod
 from pathlib import Path
 from typing import List
 from typing import Tuple
@@ -43,7 +43,6 @@ class EdgeBenchmark(ABC):
             print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"
                   f"Set token with commmand: edgebenchmark configure",
                   file=sys.stderr)
-            sys.exit(1)
 
     @property
     def version(self):
@@ -64,7 +63,8 @@ class EdgeBenchmark(ABC):
         if not isinstance(value, Tuple):
             value = list(value)
         elif not isinstance(value, List):
-            raise ValueError("Device names have to be stored inside of List or Tuple type")
+            raise ValueError(
+                "Device names have to be stored inside of List or Tuple type")
 
         self._devices = value
 
@@ -77,7 +77,8 @@ class EdgeBenchmark(ABC):
         if isinstance(value, str):
             value = json.loads(value)
         elif not isinstance(value, Dict):
-            raise ValueError("Features have to stored in Dict or as a str type")
+            raise ValueError(
+                "Features have to stored in Dict or as a str type")
 
         self._features = value
 
@@ -108,9 +109,10 @@ class EdgeBenchmark(ABC):
     def help(self):
         """Print all supported parameters
         """
-        padding = max(list(map(lambda x: len(x[0]), self.parameters().items())))
+        padding = max(
+            list(map(lambda x: len(x[0]), self.parameters().items())))
         for name, type in self.parameters().items():
-            print(name.ljust(padding, " ") , type)
+            print(name.ljust(padding, " "), type)
 
     def supported(self, parameter_name: str):
         """Find out if `parameter_name` is supported.
