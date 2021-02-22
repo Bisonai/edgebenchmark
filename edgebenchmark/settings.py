@@ -28,6 +28,10 @@ class settings:
     _MODEL_ENDPOINT = f"{_WEB_SERVER_URL}/api/model"
     _DEVICE_ENDPOINT = f"{_WEB_SERVER_URL}/api/devices"
 
+    _NCNN_VERSIONS = [
+        "20210124",
+    ]
+
     _TFLITE_VERSIONS = [
         "1.14.0",
         "1.15.0",
@@ -53,4 +57,5 @@ class settings:
 class available_benchmarks(Enum):
     tflite_basic = 0
     tflite_profiling = 1
-    ncnn = 2
+    ncnn_basic = 2
+    ncnn_profiling = 3
