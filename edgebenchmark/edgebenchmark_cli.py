@@ -39,10 +39,13 @@ from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_2_0
 from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_3_0
 from edgebenchmark.tflite_benchmark import TFLiteBenchmark_2_4_0
 
+from edgebenchmark.ncnn_benchmark import NcnnBenchmark_20210124
+
 
 @click.group()
 def cli_configure():
     pass
+
 
 @cli_configure.command()
 def configure():
@@ -77,8 +80,6 @@ def cli_devices():
 
 @cli_devices.command()
 def devices():
-    import requests
-
     token = load_token_from_file()
 
     response = get_devices(
@@ -394,19 +395,34 @@ def tflite_2_4_1(model_path, device, features, **benchmark_args):
     )
 
 
-# @main.group()
-# def ncnn():
-#     pass
+def ncnn_options(NcnnBenchmark_class):
+    def wrapper(fn):
+        for name, type in NcnnBenchmark_class.parameters().items():
+            fn = click.option(f"--{name}", type=type)(fn)
+        return fn
+
+    return wrapper
 
 
-# @ncnn.command("1.0.0")
-# def ncnn_1_0_0():
-#     print("1.0.0")
+@click.group()
+def ncnn():
+    pass
 
 
-# @ncnn.command("2.0.0")
-# def ncnn_2_0_0():
-#     print("2.0.0")
+@ncnn.command("20210124")
+@common_benchmark_options
+@ncnn_options(NcnnBenchmark_20210124)
+def ncnn_20210124(model_path, device, features, **benchmark_args):
+    benchmark_args = filter_dict(benchmark_args)
+
+    benchmark(
+        model_path,
+        device,
+        features,
+        available_benchmarks.ncnn_basic,
+        "20210124",
+        benchmark_args,
+    )
 
 
 def benchmark(
@@ -438,7 +454,7 @@ def benchmark(
         print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
 
-cli = click.CommandCollection(sources=[cli_configure, cli_tflite, cli_devices])
+cli = click.CommandCollection(sources=[cli_configure, cli_devices, cli_tflite, cli_ncnn])
 
 
 if __name__ == "__main__":

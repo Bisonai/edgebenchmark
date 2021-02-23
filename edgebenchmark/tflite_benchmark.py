@@ -14,7 +14,6 @@
 # ==============================================================================
 from edgebenchmark.settings import settings
 from edgebenchmark.settings import available_benchmarks
-
 from edgebenchmark.tflite_benchmark_1_14_0 import TFLiteBenchmark_1_14_0
 from edgebenchmark.tflite_benchmark_1_15_0 import TFLiteBenchmark_1_15_0
 from edgebenchmark.tflite_benchmark_2_0_0 import TFLiteBenchmark_2_0_0
