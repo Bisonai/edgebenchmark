@@ -1,1 +1,3 @@
 from edgebenchmark.tflite_benchmark import TFLiteBenchmark
+from edgebenchmark.ncnn_benchmark import NcnnBenchmark
+from edgebenchmark.settings import available_benchmarks
