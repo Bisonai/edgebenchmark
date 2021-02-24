@@ -47,6 +47,21 @@ def cli_configure():
     pass
 
 
+@click.group()
+def cli_devices():
+    pass
+
+
+@click.group()
+def cli_tflite():
+    pass
+
+
+@click.group()
+def cli_ncnn():
+    pass
+
+
 @cli_configure.command()
 def configure():
     try:
@@ -73,11 +88,6 @@ def configure():
             f.write(f"edgebenchmark_token = {token}\n")
 
 
-@click.group()
-def cli_devices():
-    pass
-
-
 @cli_devices.command()
 def devices():
     token = load_token_from_file()
@@ -95,11 +105,6 @@ def devices():
     response_data = json.loads(response.content.decode("ascii"))["data"]
     for d in response_data:
         print(d)
-
-
-@click.group()
-def cli_tflite():
-    pass
 
 
 def common_benchmark_options(fn):
@@ -404,7 +409,7 @@ def ncnn_options(NcnnBenchmark_class):
     return wrapper
 
 
-@click.group()
+@cli_ncnn.group()
 def ncnn():
     pass
 
