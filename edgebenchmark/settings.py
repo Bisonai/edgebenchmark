@@ -55,7 +55,7 @@ class settings:
 
 
 class available_benchmarks(Enum):
-    tflite_basic = 0
-    tflite_profiling = 1
-    ncnn_basic = 2
-    ncnn_profiling = 3
+    tflite_basic = 1
+    tflite_profiling = 2
+    ncnn_basic = 3
+    ncnn_profiling = 4
