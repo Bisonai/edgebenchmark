@@ -41,9 +41,7 @@ class EdgeBenchmark(ABC):
         try:
             self._token = load_token_from_file()
         except FileNotFoundError:
-            print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"
-                  f"Set token with commmand: edgebenchmark configure",
-                  file=sys.stderr)
+            sys.exit(1)
 
     @property
     def version(self):

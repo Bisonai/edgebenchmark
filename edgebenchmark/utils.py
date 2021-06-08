@@ -19,9 +19,13 @@ import time
 import hashlib
 from pathlib import Path
 
-from typing import Tuple
-from typing import List
-from typing import Dict
+from typing import (
+    Dict,
+    Optional,
+    List,
+    Tuple,
+)
+
 
 from edgebenchmark.settings import settings
 
@@ -111,7 +115,7 @@ def md5_hash(
     return md5.hexdigest()
 
 
-def load_token_from_file():
+def load_token_from_file() -> Optional[str]:
     settings._CONFIGURE_DIR.mkdir(parents=True, exist_ok=True)
 
     if settings._CREDENTIALS_FILE_PATH.exists():
@@ -122,7 +126,7 @@ def load_token_from_file():
 
                     if key == "edgebenchmark_token":
                         return value
-            except Exception as e:
+            except Exception:
                 print(
                     f"Invalid format of credentials file located at {settings._CONFIGURE_DIR}",
                     file=sys.stderr,
@@ -133,6 +137,7 @@ def load_token_from_file():
             "Set token with commmand: edgebenchmark configure",
             file=sys.stderr,
         )
+        raise FileNotFoundError
 
 
 def filter_dict(d: Dict):

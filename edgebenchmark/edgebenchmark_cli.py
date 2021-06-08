@@ -90,7 +90,10 @@ def configure():
 
 @cli_devices.command()
 def devices():
-    token = load_token_from_file()
+    try:
+        token = load_token_from_file()
+    except FileNotFoundError:
+        sys.exit(1)
 
     response = get_devices(
         settings._PROTOCOL_VERSION,
@@ -438,7 +441,10 @@ def benchmark(
         benchmark_version: str,
         args: Dict[str, Any],
 ):
-    token = load_token_from_file()
+    try:
+        token = load_token_from_file()
+    except FileNotFoundError:
+        sys.exit(1)
 
     response = send_model(
         settings._PROTOCOL_VERSION,
