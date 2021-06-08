@@ -30,6 +30,10 @@ from typing import (
 from edgebenchmark.settings import settings
 
 
+class CredentialsFormatException(Exception):
+    pass
+
+
 def send_model(
         protocol_version: Tuple[int, int, int],
         token: str,
@@ -131,6 +135,7 @@ def load_token_from_file() -> Optional[str]:
                     f"Invalid format of credentials file located at {settings._CONFIGURE_DIR}",
                     file=sys.stderr,
                 )
+                raise CredentialsFormatException
     else:
         print(
             f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"

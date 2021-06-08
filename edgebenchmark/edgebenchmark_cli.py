@@ -24,6 +24,7 @@ import click
 from edgebenchmark.utils import send_model
 from edgebenchmark.utils import get_devices
 from edgebenchmark.utils import load_token_from_file
+from edgebenchmark.utils import CredentialsFormatException
 from edgebenchmark.settings import available_benchmarks
 from edgebenchmark.settings import settings
 from edgebenchmark.custom_types import ModelPathType
@@ -64,12 +65,14 @@ def cli_ncnn():
 
 @cli_configure.command()
 def configure():
+    token_placeholder = "None"
+
     try:
         current_token = load_token_from_file()
-        token_placeholder = current_token[:3] + 3 * "*" + current_token[-3:]
+        if current_token:
+            token_placeholder = current_token[:3] + 3 * "*" + current_token[-3:]
     except FileNotFoundError:
         current_token = ""
-        token_placeholder = "None"
 
     try:
         token = click.prompt(
@@ -79,7 +82,7 @@ def configure():
             default=current_token,
             value_proc=verify_token_size,
         )
-    except ValueError as e:
+    except ValueError:
         print(f"Edge Benchmark Token must have exactly {settings._TOKEN_LENGTH} characters. Please use valid token.")
         sys.exit(1)
 
@@ -92,7 +95,7 @@ def configure():
 def devices():
     try:
         token = load_token_from_file()
-    except FileNotFoundError:
+    except (FileNotFoundError, CredentialsFormatException):
         sys.exit(1)
 
     response = get_devices(
@@ -443,7 +446,7 @@ def benchmark(
 ):
     try:
         token = load_token_from_file()
-    except FileNotFoundError:
+    except (FileNotFoundError, CredentialsFormatException):
         sys.exit(1)
 
     response = send_model(
