@@ -461,9 +461,13 @@ def benchmark(
     )
 
     if response.status_code != 200:
-        response_msg = json.loads(response.content.decode("ascii"))["msg"]
-        print(response_msg, file=sys.stderr)
-        sys.exit(1)
+        try:
+            response_msg = json.loads(response.content.decode("ascii"))["msg"]
+            print(response_msg, file=sys.stderr)
+            sys.exit(1)
+        except Exception:
+            print("Unexpected error", file=sys.stderr)
+            sys.exit(1)
     else:
         print("Model was successfuly sent for benchmarking. Please check the benchmarking result through https://edgebenchmark.com/app website")
 
