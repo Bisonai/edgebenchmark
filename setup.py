@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="edgebenchmark",
-    version="0.0.10",
+    version="0.0.11",
     author="Bisonai",
     author_email="contact@bisonai.com",
     description="Tool to benchmark speed of machine learning models on real mobile devices",

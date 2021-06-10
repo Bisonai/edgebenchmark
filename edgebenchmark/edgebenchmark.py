@@ -25,6 +25,7 @@ from typing import Any
 
 from edgebenchmark.utils import send_model
 from edgebenchmark.utils import load_token_from_file
+from edgebenchmark.utils import CredentialsFormatException
 from edgebenchmark.settings import settings
 from edgebenchmark.custom_types import verify_model_file
 
@@ -40,10 +41,8 @@ class EdgeBenchmark(ABC):
 
         try:
             self._token = load_token_from_file()
-        except FileNotFoundError:
-            print(f"{settings._CREDENTIALS_FILE_PATH} file does not exist.\n"
-                  f"Set token with commmand: edgebenchmark configure",
-                  file=sys.stderr)
+        except (FileNotFoundError, CredentialsFormatException):
+            sys.exit(1)
 
     @property
     def version(self):

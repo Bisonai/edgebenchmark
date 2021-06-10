@@ -31,7 +31,7 @@ def TFLiteBenchmark(version: int):
     if version in ("1.14.0"):
         b = TFLiteBenchmark_1_14_0
     elif version in ("1.15.0", "1.15.2", "1.15.3", "1.15.4"):
-        b = TFLiteBenchmark_1_15_0(version)
+        b = TFLiteBenchmark_1_15_0
     elif version in ("2.0.0", "2.0.1", "2.0.2", "2.0.3"):
         b = TFLiteBenchmark_2_0_0
     elif version in ("2.1.0", "2.1.1", "2.1.2"):
